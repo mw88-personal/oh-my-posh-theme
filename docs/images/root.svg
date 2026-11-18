@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="999.28" height="174.42" viewBox="0 0 999.28 174.42" font-family="&quot;MesloLGM Nerd Font&quot;, &quot;MesloLGM NF&quot;, &quot;Cascadia Mono NF&quot;, &quot;Hack Nerd Font&quot;, ui-monospace, monospace" font-size="16px">
+<rect class="omp-window-shadow" x="4" y="4" width="995.28" height="170.42" rx="4" fill="#ffffff" fill-opacity="0.72"/>
+<path class="omp-window-header" fill="#313339" d="M 4,0 H 991.28 A 4,4 0 0 1 995.28,4 V 26.67 H 0 V 4 A 4,4 0 0 1 4,0 Z"/>
+<path class="omp-window-content" fill="#1b1d23" d="M 0,26.67 H 995.28 V 166.42 A 4,4 0 0 1 991.28,170.42 H 4 A 4,4 0 0 1 0,166.42 Z"/>
+<line class="omp-window-divider" x1="0" y1="26.67" x2="995.28" y2="26.67" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8"/>
+<rect class="omp-window" x="0.5" y="0.5" width="994.28" height="169.42" rx="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8"/>
+<text xml:space="preserve" class="omp-window-control" x="917.95" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">−</text>
+<text xml:space="preserve" class="omp-window-control" x="948.61" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">▢</text>
+<text xml:space="preserve" class="omp-window-control" x="979.28" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">×</text>
+<text xml:space="preserve" x="16" y="59.43" textLength="953.65" lengthAdjust="spacingAndGlyphs">                                                                                                   </text>
+<text xml:space="preserve" x="969.65" y="59.43" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#cccccc"> </text>
+<text xml:space="preserve" x="16" y="81.78" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#cccccc"> </text>
+<text xml:space="preserve" x="16" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#cc071e">●</text>
+<text xml:space="preserve" x="25.63" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#f6a800">●</text>
+<text xml:space="preserve" x="35.27" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6"> </text>
+<text xml:space="preserve" x="44.9" y="104.13" textLength="38.53" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6" font-weight="bold">root</text>
+<text xml:space="preserve" x="83.43" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a">@</text>
+<text xml:space="preserve" x="93.06" y="104.13" textLength="77.06" lengthAdjust="spacingAndGlyphs" fill="#f6a800">server01</text>
+<text xml:space="preserve" x="170.13" y="104.13" textLength="19.27" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6">  </text>
+<text xml:space="preserve" x="189.39" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a">/</text>
+<text xml:space="preserve" x="199.02" y="104.13" textLength="28.9" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6" font-weight="bold">etc</text>
+<text xml:space="preserve" x="227.92" y="104.13" textLength="19.27" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6">  </text>
+<text xml:space="preserve" x="247.19" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#bdcd00" font-weight="bold">#</text>
+<text xml:space="preserve" x="256.82" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#bdcd00"> </text>
+<text xml:space="preserve" x="266.45" y="104.13" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#ffffff">_</text>
+
+</svg>

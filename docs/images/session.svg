@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="995.36" height="258.23" viewBox="0 0 995.36 258.23" font-family="&quot;MesloLGM Nerd Font&quot;, &quot;MesloLGM NF&quot;, &quot;Cascadia Mono NF&quot;, &quot;Hack Nerd Font&quot;, ui-monospace, monospace" font-size="16px">
+<rect x="0.5" y="0.5" width="994.36" height="257.23" rx="4" fill="#1b1d23" stroke="#ffffff" stroke-opacity="0.8"/>
+<path fill="#313339" d="M 4.5,0.5 H 990.86 A 4,4 0 0 1 994.86,4.5 V 26.67 H 0.5 V 4.5 A 4,4 0 0 1 4.5,0.5 Z"/>
+<line x1="0.5" y1="26.67" x2="994.86" y2="26.67" stroke="#ffffff" stroke-opacity="0.8"/>
+<text x="918.03" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">−</text>
+<text x="948.70" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">▢</text>
+<text x="979.37" y="18.47" font-size="14.67px" fill="#cfcfcf" text-anchor="middle">×</text>
+<text xml:space="preserve" x="16.00" y="59.43" textLength="163.77" lengthAdjust="spacingAndGlyphs" fill="#8b919a">oh-my-posh-theme </text>
+<text xml:space="preserve" x="179.77" y="59.43" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#7a6fac" font-weight="bold">»</text>
+<text xml:space="preserve" x="199.04" y="59.43" textLength="28.90" lengthAdjust="spacingAndGlyphs" fill="#ffffff" font-weight="bold">git</text>
+<text xml:space="preserve" x="237.57" y="59.43" textLength="38.53" lengthAdjust="spacingAndGlyphs" fill="#c8ccd4">pull</text>
+<text xml:space="preserve" x="16.00" y="81.78" textLength="568.38" lengthAdjust="spacingAndGlyphs" fill="#c8ccd4">fatal: Need to specify how to reconcile divergent branches.</text>
+<text xml:space="preserve" x="35.27" y="104.13" textLength="28.90" lengthAdjust="spacingAndGlyphs" fill="#a11035" font-weight="bold">✘ 1</text>
+<text xml:space="preserve" x="16.00" y="126.48" textLength="163.77" lengthAdjust="spacingAndGlyphs" fill="#8b919a">oh-my-posh-theme </text>
+<text xml:space="preserve" x="179.77" y="126.48" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#7a6fac" font-weight="bold">»</text>
+<text xml:space="preserve" x="199.04" y="126.48" textLength="28.90" lengthAdjust="spacingAndGlyphs" fill="#ffffff" font-weight="bold">git</text>
+<text xml:space="preserve" x="237.57" y="126.48" textLength="38.53" lengthAdjust="spacingAndGlyphs" fill="#c8ccd4">pull</text>
+<text xml:space="preserve" x="285.74" y="126.48" textLength="77.07" lengthAdjust="spacingAndGlyphs" fill="#7a6fac">--rebase</text>
+<text xml:space="preserve" x="16.00" y="148.83" textLength="472.05" lengthAdjust="spacingAndGlyphs" fill="#c8ccd4">Successfully rebased and updated refs/heads/main.</text>
+<text xml:space="preserve" x="931.19" y="171.18" textLength="48.17" lengthAdjust="spacingAndGlyphs" fill="#8b919a">3.1s </text>
+<text xml:space="preserve" x="16.00" y="215.88" textLength="462.41" lengthAdjust="spacingAndGlyphs" fill="#8b919a">                                              ╭ </text>
+<text xml:space="preserve" x="478.41" y="215.88" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a" font-weight="bold">1</text>
+<text xml:space="preserve" x="488.05" y="215.88" textLength="96.34" lengthAdjust="spacingAndGlyphs" fill="#8b919a"> staged · </text>
+<text xml:space="preserve" x="584.38" y="215.88" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a" font-weight="bold">2</text>
+<text xml:space="preserve" x="594.02" y="215.88" textLength="115.60" lengthAdjust="spacingAndGlyphs" fill="#8b919a"> modified · </text>
+<text xml:space="preserve" x="709.62" y="215.88" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a" font-weight="bold">1</text>
+<text xml:space="preserve" x="719.25" y="215.88" textLength="105.97" lengthAdjust="spacingAndGlyphs" fill="#8b919a"> deleted · </text>
+<text xml:space="preserve" x="825.22" y="215.88" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#8b919a" font-weight="bold">2</text>
+<text xml:space="preserve" x="834.86" y="215.88" textLength="96.34" lengthAdjust="spacingAndGlyphs" fill="#8b919a"> untracked</text>
+<rect x="459.15" y="223.28" width="9.93" height="18.81" fill="#454b57"/>
+<rect x="468.78" y="223.28" width="9.93" height="18.81" fill="#454b57"/>
+<rect x="478.41" y="223.28" width="9.93" height="18.81" fill="#454b57"/>
+<rect x="488.05" y="223.28" width="9.93" height="18.81" fill="#454b57"/>
+<text xml:space="preserve" x="16.00" y="238.23" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6">●</text>
+<text xml:space="preserve" x="25.63" y="238.23" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#4c87bc">●</text>
+<text xml:space="preserve" x="44.90" y="238.23" textLength="38.53" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6" font-weight="bold">Marc</text>
+<text xml:space="preserve" x="83.44" y="238.23" textLength="67.44" lengthAdjust="spacingAndGlyphs" fill="#8b919a">@laptop</text>
+<text xml:space="preserve" x="170.14" y="238.23" textLength="105.97" lengthAdjust="spacingAndGlyphs" fill="#8b919a">~/projects/</text>
+<text xml:space="preserve" x="276.11" y="238.23" textLength="154.14" lengthAdjust="spacingAndGlyphs" fill="#e6e6e6" font-weight="bold">oh-my-posh-theme</text>
+<path d="M 459.15,223.28 A 9.40,9.40 0 0 0 459.15,242.09 Z" fill="#454b57"/>
+<text xml:space="preserve" x="459.15" y="238.23" textLength="38.53" lengthAdjust="spacingAndGlyphs" fill="#ffffff">main</text>
+<path d="M 497.68,223.28 A 9.40,9.40 0 0 1 497.68,242.09 Z" fill="#454b57"/>
+<text xml:space="preserve" x="526.58" y="238.23" textLength="183.04" lengthAdjust="spacingAndGlyphs" fill="#7a6fac">(oh-my-posh-theme) </text>
+<text xml:space="preserve" x="709.62" y="238.23" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#bdcd00" font-weight="bold">»</text>
+<text xml:space="preserve" x="728.89" y="238.23" textLength="9.63" lengthAdjust="spacingAndGlyphs" fill="#c8ccd4">_</text>
+</svg>

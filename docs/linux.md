@@ -1,50 +1,33 @@
-# Linux-Server
+# Linux servers
 
-Auf den Servern im Homelab übernimmt die Ansible-Rolle `sys-base` (Task `_omp.yml`) die
-Einrichtung. Diese Seite beschreibt den Zielzustand und wie man ein neues Theme vorab testet.
+Same target state as in WSL ([wsl.md](wsl.md)):
 
-## Zielzustand
-
-| Was | Wo |
+| What | Where |
 |---|---|
-| Programm | `/usr/local/bin/oh-my-posh` (Version aus `sys_base__config._omp.version`) |
-| Theme | `/usr/local/share/oh-my-posh/themes/<sys_base__config._omp.theme_file>` |
-| Einbindung | Block `# BEGIN/END ANSIBLE MANAGED BLOCK - OH-MY-POSH` in `/etc/bash.bashrc` |
+| Program | `/usr/local/bin/oh-my-posh` |
+| Theme | `/usr/local/share/oh-my-posh/themes/mw88.omp.json` |
+| Integration | block in `/etc/bash.bashrc` |
 
-Entfernte Hosts erscheinen mit **orangen** Punkten und orangem Hostnamen, root mit **rotem** erstem Punkt und `#`.
+In the homelab, an Ansible role sets up this state (program version and theme are defined there).
+Without Ansible, steps 1–3 from [wsl.md](wsl.md) apply unchanged.
 
-## Neues Theme vor dem Ausrollen testen
+Remote hosts show **orange** dots and an orange host name; root shows a **red** first dot and `#`.
 
-Ohne etwas am System zu ändern:
+## Test a new theme before rolling it out
 
-```powershell
-# unter Windows
-scp D:\usr\local\share\oh-my-posh\themes\mw88.omp.json <user>@<host>:/tmp/
-ssh <user>@<host>
-```
+Without changing anything on the system, directly on the server:
 
 ```bash
-# auf dem Server
+tag=v2.0.0
+curl -fsSL -o /tmp/mw88.omp.json "https://raw.githubusercontent.com/mw88-personal/oh-my-posh-theme/$tag/mw88.omp.json"
 bash --norc
 eval "$(oh-my-posh init bash --config /tmp/mw88.omp.json)"
 false            # → ✘ 1
 sleep 3          # → 3s
-cd <git-repo>    # → Branch-Box, ggf. Annotation darüber
+cd <git-repo>    # → branch box, annotation above it if there are changes
 exit
 ```
 
-Achten auf: keine Meldung `unable to create text based on template` (würde auf eine zu alte
-oh-my-posh-Version hindeuten), orange Punkte, maigrünes `»`, Haken der Annotation über dem Branch, kein Transient Prompt.
-
-## Manuell (ohne Ansible)
-
-Wie in [wsl.md](wsl.md), Schritte 1 und 3. Das Theme statt aus `/mnt/d` aus dem Repo beziehen,
-z. B. per `scp` vom Ansible-Controller oder per flachem Klon des Tags:
-
-```bash
-tag=v2.0.0
-git -c advice.detachedHead=false clone --quiet --depth 1 --branch "$tag" \
-  git@github.com:mw88-personal/oh-my-posh-theme.git /tmp/omp-theme
-sudo install -D -m 644 /tmp/omp-theme/mw88.omp.json /usr/local/share/oh-my-posh/themes/mw88.omp.json
-rm -rf /tmp/omp-theme
-```
+Check for: no message `unable to create text based on template` (would indicate an oh-my-posh
+version that is too old), orange dots, may green `»`, annotation hook above the branch, no
+transient prompt.

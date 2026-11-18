@@ -1,139 +1,134 @@
 # oh-my-posh-theme · mw88
 
-Ein plattformübergreifendes [oh-my-posh](https://ohmyposh.dev)-Theme für PowerShell 7 und bash
-(lokal in WSL und per SSH auf Linux-Servern) in Windows Terminal. Ziel: **Die wichtigen Dinge sofort
-erkennen – wer bin ich, wo bin ich, in welchem Zustand – und alles andere nur als ruhige Information.**
+A cross-platform [oh-my-posh](https://ohmyposh.dev) theme for PowerShell 7 and bash (locally in
+WSL and over SSH on Linux servers) in Windows Terminal. The goal: **see the important things at a
+glance – who am I, where am I, what state am I in – and keep everything else as quiet
+information.**
 
-Das Repo enthält ausschließlich das Theme (`mw88.omp.json`) und Anleitungen. Die Einbindung ins
-jeweilige System ist bewusst Sache der Plattform und steht in [`docs/`](docs/).
-
----
-
-## Vorschau
-
-```
-fatal: Need to specify how to reconcile divergent branches.
-                                                                   2.3s ( ✘ 1 )   ← Statuszeile des vorigen Befehls
-                                                                                  ← Leerzeile
-                                              ╭ 1 staged · 2 modified · 1 untracked   ← Git-Annotation
-●● Marc@laptop  ~/projects/oh-my-posh-theme  ( main ↑1 )  (oh-my-posh-theme) » git push
-```
-
-Entfernt und als root:
-
-```
-●● ansible@bw16-pve  /etc  » sudo -i
-●● root@bw16-pve  /etc  # _
-```
-
-Ältere Befehle schrumpft der Transient Prompt (nur PowerShell) auf eine Zeile:
-
-```
-oh-my-posh-theme » git pull
-fatal: Need to specify how to reconcile divergent branches.
-  ✘ 1
-oh-my-posh-theme » git pull --rebase
-```
-
-`( … )` steht für die farbigen Boxen mit runden Enden.
+The repository contains only the theme (`mw88.omp.json`) and documentation. How the theme is hooked
+into each system is deliberately left to the platform and described in [`docs/`](docs/).
 
 ---
 
-## Aufbau des Prompts
+## Preview
 
-| Zeile | Inhalt | Wann sichtbar |
-|---|---|---|
-| Status | Dauer des vorigen Befehls (ab 2 s) und Exit-Code (`✘ n`, Bordeaux-Box), rechtsbündig | immer als Zeile vorhanden; ohne Fehler und unter 2 s leer |
-| Leerzeile | Abstand zwischen Status und Prompt | immer |
-| Git-Annotation | `╭ n staged · n modified · n deleted · n untracked · n conflict · n stashed`, der Haken steht genau über dem Branchnamen | nur in Git-Repos mit Änderungen oder Stashes |
-| Prompt | Punkte · `user@host` · Pfad · Git-Branch · venv · Eingabezeichen – die Eingabe beginnt in derselben Zeile | immer; Branch und venv nur, wenn vorhanden |
+Local, in a git repository with changes, right after a failed command:
 
-Die Statuszeile gehört zum **vorigen** Befehl und steht direkt unter dessen Ausgabe. Die
-Annotation beschreibt den **aktuellen** Zustand und steht deshalb direkt über dem Prompt.
+![Local prompt in a git repository with changes after a failed command](docs/images/local.svg)
 
-### Die zwei Punkte
+Remote host, as a normal user and as root:
 
-Der **erste Punkt** zeigt, *wer* du bist, der **zweite**, *wo* du bist.
+![Prompt on a remote host](docs/images/remote.svg)
 
-| Situation | Erster Punkt | Zweiter Punkt | Hostname | Eingabe |
-|---|---|---|---|---|
-| Nutzer, lokal (Windows, WSL) | hell | blau | grau | `»` |
-| Nutzer, entfernt | orange | orange | orange | `»` |
-| root/Administrator, lokal | rot | blau | grau | `#` |
-| root/Administrator, entfernt | rot | orange | orange | `#` |
+![Prompt as root on a remote host](docs/images/root.svg)
 
-Lokal oder entfernt erkennt das Theme selbst: Windows oder WSL gilt als lokal, alles andere als
-entfernt – auch eine Server-Konsole ohne SSH.
+A short session: the transient prompt (PowerShell only) shrinks previous commands to a single line,
+an error stays visible below its output, and the current prompt is shown in full:
+
+![Session with transient prompts, an error and the full current prompt](docs/images/session.svg)
+
+---
+
+## Prompt layout
+
+| Line           | Content                                                                                                                   | When shown                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Status         | Duration of the previous command (from 2 s) and exit code (`✘ n`, bordeaux box), right-aligned                            | always present as a line; empty without an error and under 2 s |
+| Blank line     | Spacing between status and prompt                                                                                         | always                                                         |
+| Git annotation | `╭ n staged · n modified · n deleted · n untracked · n conflict · n stashed`; the hook sits exactly above the branch name | only in git repositories with changes or stashes               |
+| Prompt         | Dots · `user@host` · path · git branch · venv · input symbol – input starts on the same line                              | always; branch and venv only when present                      |
+
+The status line belongs to the **previous** command and sits directly below its output. The
+annotation describes the **current** state and therefore sits directly above the prompt.
+
+### The two dots
+
+The **first dot** shows *who* you are, the **second** shows *where* you are.
+
+| Situation                  | First dot | Second dot | Host name | Input |
+| -------------------------- | --------- | ---------- | --------- | ----- |
+| User, local (Windows, WSL) | light     | blue       | grey      | `»`   |
+| User, remote               | orange    | orange     | orange    | `»`   |
+| root/Administrator, local  | red       | blue       | grey      | `#`   |
+| root/Administrator, remote | red       | orange     | orange    | `#`   |
+
+The theme detects local vs. remote on its own: Windows or WSL counts as local, everything else as
+remote – including a server console without SSH.
 
 ### Git
 
-| Element | Bedeutung |
-|---|---|
-| Box mit Branchname | aktueller Branch (bzw. Commit bei detached HEAD) |
-| `↑n` / `↓n` in der Box | Commits voraus / zurück gegenüber dem Upstream; keine Pfeile = synchron |
-| `staged` | vorgemerkt (`git add`) |
-| `modified` | geändert, nicht vorgemerkt |
-| `deleted` | gelöscht, nicht vorgemerkt |
-| `untracked` | neu, nicht versioniert |
-| `conflict` | Merge-Konflikt |
-| `stashed` | Einträge im Stash |
+| Element                | Meaning                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| Box with branch name   | current branch (or commit when HEAD is detached)         |
+| `↑n` / `↓n` in the box | commits ahead / behind the upstream; no arrows = in sync |
+| `staged`               | staged (`git add`)                                       |
+| `modified`             | modified, not staged                                     |
+| `deleted`              | deleted, not staged                                      |
+| `untracked`            | new, not under version control                           |
+| `conflict`             | merge conflict                                           |
+| `stashed`              | stash entries                                            |
 
-Ein sauberes Repo zeigt nur die Branch-Box, ohne Annotationszeile.
+A clean repository shows only the branch box, without an annotation line.
 
-### Farben (RWTH-Palette)
+### Colours
 
-| Farbe | Hex | Verwendung |
-|---|---|---|
-| Blau, aufgehellt | `#4C87BC` | zweiter Punkt lokal |
-| Orange | `#F6A800` | Punkte und Hostname entfernt, Hostname im Transient Prompt |
-| RWTH-Rot | `#CC071E` | erster Punkt bei root/Administrator |
-| Bordeaux | `#A11035` | Fehler-Box `✘`, Fehlercode im Transient Prompt |
-| Maigrün | `#BDCD00` | Eingabezeichen `»` bzw. `#` |
-| Violett | `#7A6FAC` | kleine Symbole: venv, `↑`/`↓`, `»` im Transient Prompt |
-| Hell | `#e6e6e6` | Nutzername, aktueller Ordner, erster Punkt lokal |
-| Grau | `#8b919a` | Nebensächliches: Hostname lokal, Elternpfad, Dauer, Annotation |
-| Dunkelgrau | `#454b57` | Git-Box |
+| Colour          | Hex       | Used for                                                                  |
+| --------------- | --------- | ------------------------------------------------------------------------- |
+| Blue, lightened | `#4C87BC` | second dot, local                                                         |
+| Orange          | `#F6A800` | dots and host name when remote, host name in the transient prompt         |
+| RWTH red        | `#CC071E` | first dot for root/Administrator                                          |
+| Bordeaux        | `#A11035` | error box `✘`, exit code in the transient prompt                          |
+| May green       | `#BDCD00` | input symbol `»` or `#`                                                   |
+| Violet          | `#7A6FAC` | small symbols: venv, `↑`/`↓`, `»` in the transient prompt                 |
+| Light           | `#e6e6e6` | user name, current folder, first dot when local                           |
+| Grey            | `#8b919a` | secondary information: local host name, parent path, duration, annotation |
+| Dark grey       | `#454b57` | git box                                                                   |
 
-Gelb kommt bewusst nicht vor.
+Yellow is deliberately not used.
 
 ---
 
-## Voraussetzungen
+## Requirements
 
-- **oh-my-posh** – getestet mit **32.1.0** (Windows, WSL). Konfigurationsformat `"version": 3`.
-  Auf Servern mit älterer Version vor dem Ausrollen testen (siehe [`docs/linux.md`](docs/linux.md)).
-- **Nerd Font** im Terminal (für die runden Box-Enden ``/``) – siehe
-  [`docs/windows-terminal.md`](docs/windows-terminal.md#schriftart).
-- **Truecolor-Terminal** (Windows Terminal) und **UTF-8**-Locale (unter Linux z. B. `en_US.UTF-8`).
+- **oh-my-posh** – tested with **32.1.0** (Windows, WSL). Configuration format `"version": 3`.
+  On servers with an older version, test before rolling out (see [`docs/linux.md`](docs/linux.md)).
+- **Nerd Font** in the terminal (for the rounded box ends ``/``) – see
+  [`docs/windows-terminal.md`](docs/windows-terminal.md#font).
+- **Truecolor terminal** (Windows Terminal) and a **UTF-8** locale (on Linux e.g. `en_US.UTF-8`).
 
 ---
 
 ## Installation
 
-| Plattform | Anleitung | Theme liegt unter | Einbindung |
-|---|---|---|---|
-| Windows, PowerShell 7 | [`docs/windows-powershell.md`](docs/windows-powershell.md) | `D:\usr\local\share\oh-my-posh\themes\` | `$PROFILE` |
-| Windows Terminal | [`docs/windows-terminal.md`](docs/windows-terminal.md) | – | `settings.json` |
-| WSL (Debian) | [`docs/wsl.md`](docs/wsl.md) | `/usr/local/share/oh-my-posh/themes/` | `/etc/bash.bashrc` |
-| Linux-Server | [`docs/linux.md`](docs/linux.md) | `/usr/local/share/oh-my-posh/themes/` | `/etc/bash.bashrc` (per Ansible) |
-| cmd | – | – | **bewusst nicht** (siehe Designentscheidungen) |
+| Platform              | Guide                                                      | Theme location                          | Hooked in via                                |
+| --------------------- | ---------------------------------------------------------- | --------------------------------------- | -------------------------------------------- |
+| Windows, PowerShell 7 | [`docs/windows-powershell.md`](docs/windows-powershell.md) | `D:\usr\local\share\oh-my-posh\themes\` | `$PROFILE`                                   |
+| Windows Terminal      | [`docs/windows-terminal.md`](docs/windows-terminal.md)     | –                                       | `settings.json`                              |
+| WSL (Debian)          | [`docs/wsl.md`](docs/wsl.md)                               | `/usr/local/share/oh-my-posh/themes/`   | `/etc/bash.bashrc`                           |
+| Linux server          | [`docs/linux.md`](docs/linux.md)                           | `/usr/local/share/oh-my-posh/themes/`   | `/etc/bash.bashrc` (manually or via Ansible) |
+| cmd                   | –                                                          | –                                       | **deliberately not** (see design decisions)  |
 
-Installiert wird immer ein **getaggter Stand**, nie der Arbeitsordner.
+Always install a **tagged release**, never the working copy. Each platform downloads the theme
+directly from GitHub, independently of the others:
+
+```
+https://raw.githubusercontent.com/mw88-personal/oh-my-posh-theme/<tag>/mw88.omp.json
+```
 
 ---
 
-## Entwicklung und Release
+## Development and releases
 
-Entwickelt wird lokal in `D:\home\marc\projects\oh-my-posh-theme`.
+Development happens locally in `D:\home\marc\projects\oh-my-posh-theme`.
 
-**Vorschau ohne das eigene Profil anzufassen:**
+**Preview without touching your own profile:**
 
 ```powershell
-# einmal rendern
+# render once
 oh-my-posh print primary --config .\mw88.omp.json --shell pwsh
 oh-my-posh print transient --config .\mw88.omp.json --shell pwsh --status 1
 
-# Testsitzung (mit exit zurück)
+# test session (leave with exit)
 pwsh -NoProfile -NoExit -Command "oh-my-posh init pwsh --config '$PWD\mw88.omp.json' | Invoke-Expression; Set-PSReadLineOption -PromptText ' '"
 ```
 
@@ -144,9 +139,24 @@ bash --norc
 eval "$(oh-my-posh init bash --config /mnt/d/home/marc/projects/oh-my-posh-theme/mw88.omp.json)"
 ```
 
-Zustände zum Durchspielen: `cmd /c exit 3` bzw. `false` (Fehler), `Start-Sleep 3` bzw. `sleep 3`
-(Dauer), ein venv aktivieren, Dateien im Repo ändern (Annotation), Testsitzung als Administrator
-bzw. `sudo -i` (root), Pfade mit `~` (Home) und mit Laufwerksbuchstaben (Ausrichtung der Annotation).
+States to try: `cmd /c exit 3` or `false` (error), `Start-Sleep 3` or `sleep 3` (duration),
+activate a venv, change files in the repository (annotation), test session as Administrator or
+`sudo -i` (root), paths under `~` (home) and with drive letters (annotation alignment).
+
+**Preview images:** the images in `docs/images/` are generated from the theme, not screenshots.
+After changing the theme, regenerate them (in WSL or on Linux; needs oh-my-posh ≥ 32, git, python3):
+
+```bash
+./tools/render-preview.sh
+```
+
+The script creates a throw-away demo repository with a fixed set of changes, renders the prompt with
+the states in `tools/preview-data/` (local with error, remote, root, plus a short session) via
+`oh-my-posh config export image`, and post-processes the SVGs with `tools/fix-svg.py` so that the
+rounded box ends also display without a Nerd Font (e.g. on github.com). `oh-my-posh config export
+image` can only draw the primary prompt; the session image is therefore built by
+`tools/session-svg.py` from the output of `oh-my-posh print transient` / `print primary`, with the
+commands and their output defined at the top of that script.
 
 **Release:**
 
@@ -157,89 +167,88 @@ git tag -a vX.Y.Z -m "…"
 git push --follow-tags
 ```
 
-Danach auf jedem Rechner den Installationsschritt mit dem neuen Tag ausführen (siehe `docs/`).
-Reine Doku-Änderungen brauchen keinen neuen Tag.
+Then run the installation step with the new tag on each machine (see `docs/`). Documentation-only
+changes don't need a new tag.
 
 ---
 
-## Designentscheidungen
+## Design decisions
 
-- **Theme plattformübergreifend, Einbindung pro Plattform.** Gleiche Optik überall; wie das Theme
-  geladen wird, regelt jede Plattform selbst (Profil, `bash.bashrc`, Ansible). Das Theme enthält
-  nichts Rechnerspezifisches.
-- **Einzeiliger Prompt.** Die Eingabe beginnt in derselben Zeile wie Nutzer, Host, Pfad und Branch.
-  Ein mehrzeiliger Prompt mit eigener Eingabezeile wurde ausprobiert (v1) und wieder verworfen.
-- **Git-Zustand als Annotation.** Statt die Prompt-Zeile zu verlängern oder rechtsbündig neben die
-  Eingabe zu setzen (dort würde ein langer Befehl darüberschreiben), steht der Zustand als Fußnote
-  über dem Branch. Im Transient Prompt entfällt er automatisch.
-- **Zwei kleine Punkte statt Host-Box.** Dezent, aber eindeutig: Der erste Punkt zeigt die Rolle
-  (rot = root/Administrator), der zweite den Ort (blau = lokal, orange = entfernt). Ein geteilter
-  Punkt aus zwei Halbkreisen wurde verworfen: Die großen Nerd-Font-Halbkreise waren zu wuchtig, die
-  kleinen Halbkreiszeichen hinterlassen je nach Schrift eine Lücke.
-- **Aufmerksamkeit lenken:** Farbe nur für Rolle, Ort, Fehler und Eingabe. Nutzername und aktueller
-  Ordner sind fett und hell, alles andere grau. Die Annotation ist einfarbig – Farbe wäre Clutter.
-- **Status gehört zum vorigen Befehl.** Eigene Zeile unter dessen Ausgabe, abgesetzt durch eine
-  Leerzeile vom neuen Prompt; das Eingabezeichen wird nicht nach dem Status eingefärbt.
-- **Keine Uhrzeit im Prompt.** Die Dauer deckt das Segment ab (ab 2 s); für „wann lief das?“ ist
-  die Shell-History der bessere Ort (siehe Ideen).
-- **Englische Git-Begriffe**, konsistent mit Git selbst.
-- **Kopierfreundlich:** keine Trennlinie, keine Pfeil-Trennzeichen; Fortsetzungszeilen beginnen mit
-  zwei Leerzeichen statt `>` und lassen sich direkt wieder einfügen.
-- **Kontrast vor Farbtreue:** Blau und Bordeaux nicht als Schriftfarbe auf dunklem Grund
-  (Kontrast ≈ 2 : 1); für den Punkt ein aufgehelltes Blau, für root RWTH-Rot statt Bordeaux.
-- **Transient Prompt** mit aktuellem Ordner, Hostname nur bei entfernten Hosts, Fehlercode des
-  vorigen Befehls als eigene, eingerückte Zeile. Das `»` ist violett, damit das maigrüne `»` der
-  aktuellen Eingabe vorbehalten bleibt.
-- **cmd bleibt unverändert.** Mit gleichem Theme wäre cmd nicht mehr von PowerShell zu
-  unterscheiden; der Standard-Prompt `C:\…>` ist das deutlichste Erkennungszeichen.
-- **Shell-Integration** (`shell_integration: true`) sendet OSC-133-Marken: Windows Terminal zeigt
-  Markierungen in der Scrollleiste und springt mit Strg+↑/↓ zwischen Befehlen.
-- **Fenstertitel** `user@host: Ordner` – der Host ist auch im Tab erkennbar.
-
----
-
-## Bekannte Eigenheiten
-
-- **Ausrichtung der Annotation** wird im Template aus Nutzername, Hostname und Pfad berechnet
-  (Anzahl Zeichen). Der Pfad im Prompt wird deshalb von einem eigenen Template erzeugt, nicht vom
-  `path`-Segment – beide müssen identisch bleiben. Zeichen, die im Terminal doppelt breit sind
-  (Emoji, CJK) in Pfad oder Namen, verschieben den Haken.
-- **Erster Punkt lokal:** Das Farb-Tag ist leer (`<>●</>`); der Punkt erbt die Vordergrundfarbe
-  des Segments (`#e6e6e6`). Wer die Segmentfarbe ändert, ändert damit auch diesen Punkt.
-- **Unsichtbare Zeichen:** oh-my-posh verwirft Zeilen, die nur aus Leerzeichen bestehen. Damit
-  Statuszeile und Leerzeile auch ohne Inhalt erscheinen, enthalten sie je ein leeres
-  Braille-Zeichen (U+2800). Wer diese Zeilen kopiert, kopiert es mit.
-- **Runde Box-Enden** sind Nerd-Font-Zeichen (U+E0B6/U+E0B4) und landen beim Kopieren im Text.
-- **Transient Prompt** nur in PowerShell (und cmd/zsh/fish/nu); bash nur mit ble.sh. Auf den
-  Servern bleibt der volle Prompt – das hebt entfernte Sitzungen im Verlauf ab.
-- **Im Transient Prompt** ist nur der Exit-Code des vorigen Befehls verfügbar, keine Dauer.
-- **Farbmarken in Templates** müssen wörtlich im Template stehen; von Funktionen (`printf`, `join`)
-  erzeugte `<#…>`-Marken interpretiert oh-my-posh nicht.
-- **venv `.venv`** wird mit dem Namen des Projektordners angezeigt (oh-my-posh-Standard).
-- **PowerShell:** Der Prompt endet auf Leerzeichen; deshalb `Set-PSReadLineOption -PromptText ' '`,
-  sonst überschreibt PSReadLine bei Syntaxfehlern das Eingabezeichen.
-- **Einfügen per Rechtsklick** führt in PowerShell jede Zeile einzeln aus (PSReadLine unterstützt
-  kein Bracketed Paste). Strg+V fügt als Block ein, wenn Windows Terminal Strg+V nicht belegt.
+- **Cross-platform theme, platform-specific integration.** The same look everywhere; how the theme
+  is loaded is up to each platform (profile, `bash.bashrc`, Ansible). The theme contains nothing
+  machine-specific.
+- **Single-line prompt.** Input starts on the same line as user, host, path and branch. A multi-line
+  prompt with a separate input line was tried (v1) and dropped.
+- **Git state as an annotation.** Instead of making the prompt line longer or right-aligning the
+  state next to the input (where a long command would overwrite it), the state is shown as a
+  footnote above the branch. It disappears automatically in the transient prompt.
+- **Two small dots instead of a host box.** Subtle but unambiguous: the first dot shows the role
+  (red = root/Administrator), the second the location (blue = local, orange = remote). A split dot
+  made of two half circles was dropped: the large Nerd Font half circles were too heavy, and the
+  small half-circle characters leave a gap in some fonts.
+- **Direct attention:** colour only for role, location, errors and input. User name and current
+  folder are bold and light, everything else grey. The annotation is monochrome – colour would be
+  clutter.
+- **Status belongs to the previous command.** It has its own line below that command's output,
+  separated from the new prompt by a blank line; the input symbol is not coloured by the status.
+- **No clock in the prompt.** The duration segment covers that (from 2 s); for "when did that run?"
+  the shell history is the better place (see ideas).
+- **English git terms**, consistent with git itself.
+- **Copy-friendly:** no separator line, no arrow separators; continuation lines start with two
+  spaces instead of `>` and can be pasted back directly.
+- **Contrast over colour fidelity:** no blue or bordeaux as text colour on a dark background
+  (contrast ≈ 2 : 1); a lightened blue for the dot, RWTH red instead of bordeaux for root.
+- **Transient prompt** with the current folder, the host name only for remote hosts, and the exit
+  code of the previous command as its own indented line. Its `»` is violet so that the may green
+  `»` stays reserved for the current input.
+- **cmd is left unchanged.** With the same theme, cmd could no longer be told apart from
+  PowerShell; the default `C:\…>` prompt is the clearest way to recognise it.
+- **Shell integration** (`shell_integration: true`) emits OSC 133 marks: Windows Terminal shows
+  marks on the scrollbar and jumps between commands with Ctrl+↑/↓.
+- **Window title** `user@host: folder` – the host is also visible in the tab.
 
 ---
 
-## Ideen für später
+## Known quirks
 
-- `HISTTIMEFORMAT="%F %T "` systemweit setzen, damit `history` Datum und Uhrzeit zeigt.
-- Server auf oh-my-posh 32.x anheben (gleicher Stand wie Windows/WSL).
-- **fzf** (Fuzzy-Suche in der History mit Strg+R), **zoxide** (`z projekt`), **atuin**
-  (durchsuchbare, synchronisierte History, selbst hostbar).
-- **ble.sh** für bash: Vorschläge, Syntaxhervorhebung und Transient Prompt auch unter Linux.
-- PSReadLine-Vorschläge als Liste: `Set-PSReadLineOption -PredictionViewStyle ListView`.
-- Vorschaubild fürs README mit `oh-my-posh config export image` und `--data`-Dateien für
-  reproduzierbare Zustände.
+- **Annotation alignment** is computed in the template from user name, host name and path
+  (character count). That's why the path in the prompt is produced by its own template rather than
+  the `path` segment – both must stay identical. Characters that are double-width in the terminal
+  (emoji, CJK) in the path or names shift the hook.
+- **First dot when local:** its colour tag is empty (`<>●</>`), so the dot inherits the segment's
+  foreground colour (`#e6e6e6`). Changing the segment colour also changes this dot.
+- **Invisible characters:** oh-my-posh drops lines that contain only spaces. So that the status line
+  and the blank line also appear when empty, each contains an empty Braille character (U+2800).
+  Copying these lines copies it as well.
+- **Rounded box ends** are Nerd Font characters (U+E0B6/U+E0B4) and end up in copied text.
+- **Transient prompt** only in PowerShell (and cmd/zsh/fish/nu); bash only with ble.sh. On servers
+  the full prompt stays – which makes remote sessions stand out in the scrollback.
+- **In the transient prompt** only the exit code of the previous command is available, not its
+  duration.
+- **Colour tags in templates** must appear literally in the template; oh-my-posh does not interpret
+  `<#…>` tags produced by functions (`printf`, `join`).
+- **venv `.venv`** is shown with the name of the project folder (oh-my-posh default).
+- **PowerShell:** the prompt ends with a space; hence `Set-PSReadLineOption -PromptText ' '`,
+  otherwise PSReadLine overwrites the input symbol on syntax errors.
+- **Pasting with right-click** runs each line separately in PowerShell (PSReadLine doesn't support
+  bracketed paste). Ctrl+V pastes as a block if Windows Terminal doesn't bind Ctrl+V.
 
 ---
 
-## Versionen
+## Ideas for later
 
-| Tag | Inhalt |
-|---|---|
-| `v0.1.0` | Ausgangsstand: Theme, wie es vor der Überarbeitung auf den Servern lief |
-| `v1.0.0` | Mehrzeiliges Design: Statuszeile, Host-Box, Git-Zeile, eigene Eingabezeile, Transient und Secondary Prompt |
-| `v2.0.0` | Einzeiliger Prompt: Rollen- und Ortspunkt, Git-Annotation über dem Branch, Leerzeile nach der Statuszeile |
+- Set `HISTTIMEFORMAT="%F %T "` system-wide so that `history` shows date and time.
+- **fzf** (fuzzy history search with Ctrl+R), **zoxide** (`z project`), **atuin** (searchable,
+  synced history, self-hostable).
+- **ble.sh** for bash: suggestions, syntax highlighting and a transient prompt on Linux too.
+- PSReadLine suggestions as a list: `Set-PSReadLineOption -PredictionViewStyle ListView`.
+
+---
+
+## Versions
+
+| Tag      | Content                                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------------------- |
+| `v0.1.0` | Starting point: the theme as it ran on the servers before the redesign                                        |
+| `v1.0.0` | Multi-line design: status line, host box, git line, separate input line, transient and secondary prompt       |
+| `v2.0.0` | Single-line prompt: role and location dots, git annotation above the branch, blank line after the status line |

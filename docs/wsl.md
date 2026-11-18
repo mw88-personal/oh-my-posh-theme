@@ -1,16 +1,16 @@
 # WSL (Debian)
 
-Aufbau wie auf den Linux-Servern:
+Same layout as on the Linux servers:
 
-| Was | Wo |
+| What | Where |
 |---|---|
-| Programm | `/usr/local/bin/oh-my-posh` |
+| Program | `/usr/local/bin/oh-my-posh` |
 | Theme | `/usr/local/share/oh-my-posh/themes/mw88.omp.json` |
-| Einbindung | Block in `/etc/bash.bashrc` |
+| Integration | block in `/etc/bash.bashrc` |
 
-WSL wird automatisch als **lokal** erkannt (heller und blauer Punkt).
+WSL is detected automatically as **local** (light and blue dot).
 
-## 0. Bestandsaufnahme
+## 0. Check the current state
 
 ```bash
 type -a oh-my-posh; oh-my-posh version
@@ -19,12 +19,12 @@ locale | grep -E '^(LANG|LC_CTYPE)='
 uname -m
 ```
 
-- Es soll nur **ein** `oh-my-posh` geben. Eine Installation per Installationsskript liegt meist in
-  `~/.local/bin` und steht im `PATH` vor `/usr/local/bin` – entfernen.
-- Locale muss UTF-8 sein, sonst berechnet bash die Zeilenlänge falsch
+- There should be only **one** `oh-my-posh`. An installation via the install script usually lives
+  in `~/.local/bin` and comes before `/usr/local/bin` in `PATH` – remove it.
+- The locale must be UTF-8, otherwise bash computes the line length incorrectly
   (`sudo apt install locales && sudo dpkg-reconfigure locales`).
 
-## 1. oh-my-posh installieren bzw. aktualisieren
+## 1. Install or update oh-my-posh
 
 ```bash
 v=32.1.0
@@ -35,25 +35,26 @@ rm -f ~/.local/bin/oh-my-posh; hash -r
 oh-my-posh version
 ```
 
-Bei `uname -m` = `aarch64` heißt die Datei `posh-linux-arm64`.
+If `uname -m` reports `aarch64`, the file is called `posh-linux-arm64`.
 
-## 2. Theme übernehmen
+## 2. Install or update the theme
 
-Das Theme kommt aus der (getaggten) Windows-Installation – kein eigener GitHub-Zugang nötig:
+A tagged release directly from GitHub, independent of the Windows installation. To update, just
+change `tag`.
 
 ```bash
-sudo install -D -m 644 /mnt/d/usr/local/share/oh-my-posh/themes/mw88.omp.json \
-  /usr/local/share/oh-my-posh/themes/mw88.omp.json
+tag=v2.0.0
+sudo install -d /usr/local/share/oh-my-posh/themes
+sudo curl -fsSL -o /usr/local/share/oh-my-posh/themes/mw88.omp.json \
+  "https://raw.githubusercontent.com/mw88-personal/oh-my-posh-theme/$tag/mw88.omp.json"
 ```
 
-Update: erst unter Windows installieren ([windows-powershell.md](windows-powershell.md)), dann diese Zeile.
-
-## 3. Einbindung (einmalig)
+## 3. Integration (once)
 
 ```bash
 sudo tee -a /etc/bash.bashrc >/dev/null <<'EOF'
 
-# BEGIN oh-my-posh (siehe github.com/mw88-personal/oh-my-posh-theme)
+# BEGIN oh-my-posh (see github.com/mw88-personal/oh-my-posh-theme)
 if [ -x /usr/local/bin/oh-my-posh ] && [ "$TERM" != "linux" ]; then
     eval "$(oh-my-posh init bash --config /usr/local/share/oh-my-posh/themes/mw88.omp.json)"
 fi
@@ -61,14 +62,14 @@ fi
 EOF
 ```
 
-`$TERM != linux` schaltet den Prompt in einer reinen Textkonsole ab, die keine Nerd-Font-Glyphen kann.
-Alte `oh-my-posh init`-Zeilen in `~/.bashrc` oder `~/.profile` entfernen.
+`$TERM != linux` turns the prompt off on a plain text console, which can't render Nerd Font glyphs.
+Remove old `oh-my-posh init` lines from `~/.bashrc` or `~/.profile`.
 
 ## Test
 
-Neuer Debian-Tab: heller und blauer Punkt, maigrünes `»`; `false` → `✘ 1`; `sleep 3` → `3s`;
-in einem Repo mit Änderungen steht der Haken `╭` der Annotation über dem Branch.
-Kein Transient Prompt (bash ohne ble.sh).
+New Debian tab: light and blue dot, may green `»`; `false` → `✘ 1`; `sleep 3` → `3s`;
+in a repository with changes, the annotation hook `╭` sits above the branch.
+No transient prompt (bash without ble.sh).
 
-Git-Repos unter `/mnt/d/…` sind aus WSL spürbar langsamer – das liegt am Dateizugriff über die
-Windows-Grenze, nicht am Theme.
+Git repositories under `/mnt/d/…` are noticeably slower from WSL – that's due to file access across
+the Windows boundary, not the theme.

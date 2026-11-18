@@ -1,75 +1,67 @@
 # Windows: PowerShell 7
 
-Voraussetzungen: PowerShell 7 (MSIX/Store-Version), oh-my-posh per winget, Git mit SSH-Zugang zu GitHub.
+Requirements: PowerShell 7 (MSIX/Store version) and oh-my-posh via winget.
 
 ```powershell
-winget install --id Microsoft.PowerShell --source winget     # falls noch nicht vorhanden
+winget install --id Microsoft.PowerShell --source winget     # if not installed yet
 winget install --id JanDeDobbeleer.OhMyPosh --source winget
-ssh -T git@github.com                                         # muss "Hi mw88-personal!" melden
 ```
 
-## 1. Theme installieren bzw. aktualisieren
+## 1. Install or update the theme
 
-Installiert wird ein getaggter Stand. Für ein Update nur `$tag` ändern.
+Installs a tagged release directly from GitHub. To update, just change `$tag`.
 
 ```powershell
 $tag  = "v2.0.0"
 $dest = "D:\usr\local\share\oh-my-posh\themes"
-$tmp  = Join-Path $env:TEMP "oh-my-posh-theme-$tag"
-
-git -c advice.detachedHead=false clone --quiet --depth 1 --branch $tag git@github.com:mw88-personal/oh-my-posh-theme.git $tmp
 New-Item -ItemType Directory -Force $dest | Out-Null
-Copy-Item "$tmp\mw88.omp.json" $dest -Force
-Remove-Item -Recurse -Force $tmp
+Invoke-WebRequest "https://raw.githubusercontent.com/mw88-personal/oh-my-posh-theme/$tag/mw88.omp.json" -OutFile "$dest\mw88.omp.json"
 ```
 
-Die Warnung `refs/tags/… is not a commit!` ist harmlos: Annotierte Tags sind eigene Objekte,
-Git checkt trotzdem den Commit aus, auf den der Tag zeigt.
-
-## 2. Profil
+## 2. Profile
 
 `notepad $PROFILE` (PowerShell 7: `…\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`):
 
 ```powershell
-# --- Prompt: oh-my-posh mit systemweit installiertem Theme ---
+# --- Prompt: oh-my-posh with the system-wide theme ---
 oh-my-posh init pwsh --config "D:\usr\local\share\oh-my-posh\themes\mw88.omp.json" | Invoke-Expression
 
-# Prompt endet auf "» " – PSReadLine soll bei Syntaxfehlern nur das unsichtbare Leerzeichen umfärben
+# The prompt ends with "» " – on syntax errors PSReadLine should only recolour the invisible space
 Set-PSReadLineOption -PromptText ' '
 
-# --- Syntaxfarben beim Tippen (RWTH-Palette, kein Gelb) ---
+# --- Syntax colours while typing (RWTH palette, no yellow) ---
 Set-PSReadLineOption -Colors @{
-    Command          = "`e[1;38;2;255;255;255m"   # Befehle: fett weiß
-    Parameter        = "`e[38;2;122;111;172m"     # -Parameter: Violett
-    Keyword          = "`e[38;2;122;111;172m"     # if, foreach: Violett
-    String           = "`e[38;2;246;168;0m"       # "Strings": Orange
+    Command          = "`e[1;38;2;255;255;255m"   # commands: bold white
+    Parameter        = "`e[38;2;122;111;172m"     # -parameters: violet
+    Keyword          = "`e[38;2;122;111;172m"     # if, foreach: violet
+    String           = "`e[38;2;246;168;0m"       # "strings": orange
     Variable         = "`e[38;2;230;230;230m"
     Number           = "`e[38;2;230;230;230m"
-    Operator         = "`e[38;2;139;145;154m"     # | ; = : Grau
-    Comment          = "`e[3;38;2;107;114;128m"   # Kommentare: grau kursiv
-    InlinePrediction = "`e[3;38;2;107;114;128m"   # Vorschläge aus der History
-    Error            = "`e[4;38;2;246;168;0m"     # Syntaxfehler: Orange, unterstrichen
+    Operator         = "`e[38;2;139;145;154m"     # | ; = : grey
+    Comment          = "`e[3;38;2;107;114;128m"   # comments: grey italic
+    InlinePrediction = "`e[3;38;2;107;114;128m"   # suggestions from history
+    Error            = "`e[4;38;2;246;168;0m"     # syntax errors: orange, underlined
 }
 
-# --- Ausgabefarben ---
-$PSStyle.Formatting.Error       = "`e[38;2;246;168;0m"                    # Fehler: Orange
-$PSStyle.Formatting.ErrorAccent = "`e[1;38;2;27;29;35;48;2;246;168;0m"    # Akzent: dunkel fett auf Orange
-$PSStyle.Formatting.Warning     = "`e[38;2;102;152;197m"                  # Warnungen: Blau, aufgehellt
+# --- Output colours ---
+$PSStyle.Formatting.Error       = "`e[38;2;246;168;0m"                    # errors: orange
+$PSStyle.Formatting.ErrorAccent = "`e[1;38;2;27;29;35;48;2;246;168;0m"    # accent: dark bold on orange
+$PSStyle.Formatting.Warning     = "`e[38;2;102;152;197m"                  # warnings: blue, lightened
 $PSStyle.Formatting.Verbose     = "`e[38;2;139;145;154m"
 $PSStyle.Formatting.Debug       = "`e[38;2;139;145;154m"
 
-# --- Terminal-Icons verzögert laden (spart ~0,6 s beim Start) ---
-# "PowerShell.OnIdle" feuert, sobald der Prompt steht; -Global, weil der Action-Block einen eigenen Scope hat.
+# --- Load Terminal-Icons lazily (saves ~0.6 s at startup) ---
+# "PowerShell.OnIdle" fires once the prompt is shown; -Global because the action block has its own scope.
 $null = Register-EngineEvent -SourceIdentifier PowerShell.OnIdle -MaxTriggerCount 1 -Action {
     Import-Module Terminal-Icons -Global
 }
 ```
 
-Terminal-Icons einmalig installieren: `Install-Module Terminal-Icons -Scope CurrentUser`.
+Install Terminal-Icons once: `Install-Module Terminal-Icons -Scope CurrentUser`.
 
 ## 3. Windows PowerShell 5.1 (optional)
 
-Nur der Prompt, ohne Farbeinstellungen (altes PSReadLine 2.0, kein `$PSStyle`):
+Prompt only, without colour settings (old PSReadLine 2.0, no `$PSStyle`):
 
 ```powershell
 Set-Content (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'WindowsPowerShell\Microsoft.PowerShell_profile.ps1') `
@@ -78,17 +70,20 @@ Set-Content (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'WindowsPow
 
 ## Test
 
-Neuer Tab in Windows Terminal:
+New tab in Windows Terminal:
 
-- Prompt erscheint, keine Meldung „Das Laden der persönlichen und Systemprofile dauerte …“.
-- `ls` zeigt nach 1–2 s Icons.
+- The prompt appears, without a message about how long loading the profiles took.
+- After 1–2 s, `ls` shows icons.
 - `cmd /c exit 3` → `✘ 3`; `Start-Sleep 3` → `3s`.
-- `Get-Item C:\gibtsnicht` → Fehler in Orange; `Write-Warning "Test"` → Blau.
-- Nach dem nächsten Befehl ist der vorige Prompt auf eine Zeile geschrumpft (Transient Prompt).
+- In a repository with changes, the annotation hook `╭` sits above the branch – also under `~\…`
+  (home) and in paths with drive letters.
+- `Get-Item C:\doesnotexist` → error in orange; `Write-Warning "Test"` → blue.
+- After the next command, the previous prompt has shrunk to one line (transient prompt).
 
-## Fehlersuche
+## Troubleshooting
 
-- **Alte Version wird verwendet:** `oh-my-posh version; (Get-Command oh-my-posh).Source` – nur der
-  Pfad unter `…\WindowsApps\` soll übrig sein.
-- **Cursor sitzt falsch, Prompt verrutscht:** Läuft wirklich PowerShell 7? `$PSVersionTable.PSVersion`,
-  `(Get-Module PSReadLine).Version` (≥ 2.3).
+- **An old version is used:** `oh-my-posh version; (Get-Command oh-my-posh).Source` – only the path
+  under `…\WindowsApps\` should remain.
+- **Cursor in the wrong place, prompt shifted:** Is it really PowerShell 7?
+  `$PSVersionTable.PSVersion`, `(Get-Module PSReadLine).Version` (≥ 2.3).
+- **Download fails (404):** tag misspelled or repository not public.

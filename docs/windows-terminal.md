@@ -1,8 +1,8 @@
 # Windows Terminal
 
-Einstellungen → „JSON-Datei öffnen“ (`settings.json`).
+Settings → "Open JSON file" (`settings.json`).
 
-## Standardwerte für alle Profile
+## Defaults for all profiles
 
 ```json
 "profiles": {
@@ -21,18 +21,18 @@ Einstellungen → „JSON-Datei öffnen“ (`settings.json`).
 }
 ```
 
-| Einstellung | Warum |
+| Setting | Why |
 |---|---|
-| `intenseTextStyle: "all"` | Fetter Text wird wirklich fett. Mit dem Standard `"bright"` wird er nur heller – bei Hex-Farben gar nicht. |
-| `adjustIndistinguishableColors: "never"` | Windows Terminal soll die Theme-Farben nicht eigenmächtig ändern. |
-| `autoMarkPrompts`, `showMarksOnScrollbar` | Markierung pro Befehl in der Scrollleiste (ab Windows Terminal 1.21; davor mit Präfix `experimental.`). |
-| `startingDirectory` | Start im eigenen Home statt in `C:\Windows\System32`. |
-| `opacity` | 70 lässt den Desktop durchscheinen; Farben wirken dann je nach Hintergrund anders. Für einheitliche Farben ≥ 90. |
+| `intenseTextStyle: "all"` | Bold text is really rendered bold. With the default `"bright"` it only gets brighter – and with hex colours not even that. |
+| `adjustIndistinguishableColors: "never"` | Windows Terminal should not change the theme's colours on its own. |
+| `autoMarkPrompts`, `showMarksOnScrollbar` | A mark per command on the scrollbar (Windows Terminal 1.21+; earlier with the prefix `experimental.`). |
+| `startingDirectory` | Start in your own home instead of `C:\Windows\System32`. |
+| `opacity` | 70 lets the desktop shine through; colours then look different depending on the background. For consistent colours use ≥ 90. |
 
-Keine profilspezifischen `font`- oder `intenseTextStyle`-Einträge – sonst unterscheiden sich
-Schriftgröße (Strg+0 setzt auf den Profilwert zurück) und Darstellung je Profil.
+No profile-specific `font` or `intenseTextStyle` entries – otherwise font size (Ctrl+0 resets to
+the profile value) and rendering differ per profile.
 
-## Profile
+## Profiles
 
 ```json
 {
@@ -48,11 +48,11 @@ Schriftgröße (Strg+0 setzt auf den Profilwert zurück) und Darstellung je Prof
 }
 ```
 
-- `-NoLogo` blendet die Zeile „PowerShell 7.x.y“ beim Start aus.
-- WSL-Profile brauchen `"startingDirectory": "~"`, sonst starten sie in `/mnt/d/home/marc`.
-- `defaultProfile` auf die GUID von „PowerShell“ (PowerShell 7) setzen, nicht „Windows PowerShell“.
+- `-NoLogo` hides the "PowerShell 7.x.y" line at startup.
+- WSL profiles need `"startingDirectory": "~"`, otherwise they start in `/mnt/d/home/marc`.
+- Set `defaultProfile` to the GUID of "PowerShell" (PowerShell 7), not "Windows PowerShell".
 
-## Tastenbelegung
+## Key bindings
 
 ```json
 "keybindings": [
@@ -61,24 +61,24 @@ Schriftgröße (Strg+0 setzt auf den Profilwert zurück) und Darstellung je Prof
 ]
 ```
 
-**Strg+V nicht belegen.** Dann übernimmt PSReadLine in PowerShell das Einfügen und fügt mehrere
-Zeilen als Block ein, der erst mit Enter ausgeführt wird. In bash/SSH-Sitzungen Strg+Umschalt+V
-verwenden. Einfügen per Rechtsklick führt in PowerShell weiterhin jede Zeile einzeln aus.
+**Don't bind Ctrl+V.** Then PSReadLine handles pasting in PowerShell and inserts multiple lines as
+one block that only runs when you press Enter. In bash/SSH sessions use Ctrl+Shift+V. Pasting with
+right-click still runs each line separately in PowerShell.
 
-## Schriftart
+## Font
 
-Das Theme braucht eine **Nerd Font** (runde Box-Enden U+E0B6/U+E0B4). Getestet mit **MesloLGM NF**.
+The theme needs a **Nerd Font** (rounded box ends U+E0B6/U+E0B4). Tested with **MesloLGM NF**.
 
-Alternativen (monospace, serifenlos im Charakter):
+Alternatives (monospace, sans-serif in character):
 
-| Schrift | Hinweis |
+| Font | Note |
 |---|---|
-| Cascadia Mono NF | Microsofts Terminal-Schrift, offiziell mit Nerd-Font-Symbolen, ohne Ligaturen |
-| JetBrains Mono (Nerd Font) | groß, sehr klare Unterscheidung von `0`/`O`, `1`/`l`/`I` |
-| Fira Mono / Hack (Nerd Font) | ruhig, klassisch |
+| Cascadia Mono NF | Microsoft's terminal font, officially with Nerd Font symbols, no ligatures |
+| JetBrains Mono (Nerd Font) | large, very clear distinction of `0`/`O`, `1`/`l`/`I` |
+| Fira Mono / Hack (Nerd Font) | calm, classic |
 
-Nerd-Font-Varianten lassen sich mit `oh-my-posh font list` anzeigen und mit
-`oh-my-posh font install <Name>` installieren. Die genaue Schriftbezeichnung für `"face"` danach
-aus der Auswahlliste in den Windows-Terminal-Einstellungen übernehmen.
+List the Nerd Font variants with `oh-my-posh font list` and install one with
+`oh-my-posh font install <name>`. Then take the exact font name for `"face"` from the drop-down in
+the Windows Terminal settings.
 
-Prüfen: Die runden Enden schließen sauber an den Text an, `»` und `✘` haben passende Größe.
+Check: the rounded ends join the text cleanly, and `»`, `✘` and `●` have a fitting size.
