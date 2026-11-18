@@ -41,51 +41,27 @@
       "newline": true,
       "segments": [
         {
-          "type": "session",
-          "style": "diamond",
-          "leading_diamond": "",
-          "trailing_diamond": " ",
-          "foreground": "#ffffff",
-          "background": "#00549F",
-          "foreground_templates": [
-            "{{ if .Root }}#ffffff{{ else if or (eq .OS \"windows\") .WSL }}#ffffff{{ else }}#1b1d23{{ end }}"
-          ],
-          "background_templates": [
-            "{{ if .Root }}#A11035{{ else if or (eq .OS \"windows\") .WSL }}#00549F{{ else }}#F6A800{{ end }}"
-          ],
-          "template": "{{ .UserName }}@{{ .HostName }}"
-        },
-        {
-          "type": "path",
+          "type": "text",
           "style": "plain",
-          "foreground": "#e6e6e6",
-          "template": "<#8b919a>{{ .Parent }}</><b>{{ .Path }}</b> ",
-          "properties": {
-            "style": "folder"
-          }
-        },
-        {
-          "type": "python",
-          "style": "plain",
-          "foreground": "#7A6FAC",
-          "template": "({{ .Venv }}) ",
-          "properties": {
-            "display_mode": "environment"
-          }
-        },
+          "template": "⠀"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
         {
           "type": "git",
-          "alias": "Git",
-          "style": "diamond",
-          "leading_diamond": "",
-          "trailing_diamond": "",
-          "foreground": "#ffffff",
-          "background": "#454b57",
-          "template": "{{ .HEAD }}{{ if gt .Ahead 0 }} <#7A6FAC>↑{{ .Ahead }}</>{{ end }}{{ if gt .Behind 0 }} <#7A6FAC>↓{{ .Behind }}</>{{ end }}",
+          "alias": "GitAnn",
+          "style": "plain",
+          "foreground": "#8b919a",
+          "template": "{{ $p := .PWD }}{{ $h := default .Env.USERPROFILE .Env.HOME }}{{ if and $h (hasPrefix $h $p) }}{{ $p = printf \"~%s\" (trimPrefix $h $p) }}{{ end }}{{ $f := regexFind \"[^\\\\\\\\/]+$\" $p }}{{ if not $f }}{{ $f = $p }}{{ end }}{{ $par := trimSuffix $f $p }}{{ $s := add .Staging.Added .Staging.Modified .Staging.Deleted }}{{ $any := or (gt $s 0) (gt .Working.Modified 0) (gt .Working.Deleted 0) (gt .Working.Untracked 0) (gt .Working.Unmerged 0) (gt .StashCount 0) }}{{ if $any }}{{ $pre := printf \"xx %s@%s  %s  x\" .UserName .HostName $p }}{{ repeat (len (splitList \"\" $pre)) \" \" }}╭ {{ $n := false }}{{ if gt $s 0 }}<b>{{ $s }}</b> staged{{ $n = true }}{{ end }}{{ if gt .Working.Modified 0 }}{{ if $n }} · {{ end }}<b>{{ .Working.Modified }}</b> modified{{ $n = true }}{{ end }}{{ if gt .Working.Deleted 0 }}{{ if $n }} · {{ end }}<b>{{ .Working.Deleted }}</b> deleted{{ $n = true }}{{ end }}{{ if gt .Working.Untracked 0 }}{{ if $n }} · {{ end }}<b>{{ .Working.Untracked }}</b> untracked{{ $n = true }}{{ end }}{{ if gt .Working.Unmerged 0 }}{{ if $n }} · {{ end }}<b>{{ .Working.Unmerged }}</b> conflict{{ $n = true }}{{ end }}{{ if gt .StashCount 0 }}{{ if $n }} · {{ end }}<b>{{ .StashCount }}</b> stashed{{ end }}{{ end }}",
           "properties": {
-            "branch_icon": "",
             "fetch_status": true,
-            "fetch_stash_count": true
+            "fetch_stash_count": true,
+            "branch_icon": ""
           }
         }
       ]
@@ -98,16 +74,37 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "#8b919a",
-          "template": "{{ $g := .Segments.Git }}{{ $s := add $g.Staging.Added $g.Staging.Modified $g.Staging.Deleted }}{{ $any := or (gt $s 0) (gt $g.Working.Modified 0) (gt $g.Working.Deleted 0) (gt $g.Working.Untracked 0) (gt $g.Working.Unmerged 0) (gt $g.StashCount 0) }}{{ if $any }}  └ {{ $n := false }}{{ if gt $s 0 }}<b>{{ $s }}</b> staged{{ $n = true }}{{ end }}{{ if gt $g.Working.Modified 0 }}{{ if $n }} · {{ end }}<b>{{ $g.Working.Modified }}</b> modified{{ $n = true }}{{ end }}{{ if gt $g.Working.Deleted 0 }}{{ if $n }} · {{ end }}<b>{{ $g.Working.Deleted }}</b> deleted{{ $n = true }}{{ end }}{{ if gt $g.Working.Untracked 0 }}{{ if $n }} · {{ end }}<b>{{ $g.Working.Untracked }}</b> untracked{{ $n = true }}{{ end }}{{ if gt $g.Working.Unmerged 0 }}{{ if $n }} · {{ end }}<b>{{ $g.Working.Unmerged }}</b> conflict{{ $n = true }}{{ end }}{{ if gt $g.StashCount 0 }}{{ if $n }} · {{ end }}<b>{{ $g.StashCount }}</b> stashed{{ end }}{{ end }}"
-        }
-      ]
-    },
-    {
-      "type": "prompt",
-      "alignment": "left",
-      "newline": true,
-      "segments": [
+          "foreground": "#e6e6e6",
+          "template": "{{ if .Root }}<#CC071E>●</>{{ else }}<{{ if (or (eq .OS \"windows\") .WSL) }}{{ else }}#F6A800{{ end }}>●</>{{ end }}<{{ if (or (eq .OS \"windows\") .WSL) }}#4C87BC{{ else }}#F6A800{{ end }}>●</> <b>{{ .UserName }}</b><#8b919a>@</>{{ if (or (eq .OS \"windows\") .WSL) }}<#8b919a>{{ .HostName }}</>{{ else }}<#F6A800>{{ .HostName }}</>{{ end }}  "
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground": "#e6e6e6",
+          "template": "{{ $p := .PWD }}{{ $h := default .Env.USERPROFILE .Env.HOME }}{{ if and $h (hasPrefix $h $p) }}{{ $p = printf \"~%s\" (trimPrefix $h $p) }}{{ end }}{{ $f := regexFind \"[^\\\\\\\\/]+$\" $p }}{{ if not $f }}{{ $f = $p }}{{ end }}{{ $par := trimSuffix $f $p }}<#8b919a>{{ $par }}</><b>{{ $f }}</b>  "
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": "  ",
+          "foreground": "#ffffff",
+          "background": "#454b57",
+          "template": "{{ .HEAD }}{{ if gt .Ahead 0 }} <#7A6FAC>↑{{ .Ahead }}</>{{ end }}{{ if gt .Behind 0 }} <#7A6FAC>↓{{ .Behind }}</>{{ end }}",
+          "properties": {
+            "branch_icon": "",
+            "fetch_status": true
+          }
+        },
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "#7A6FAC",
+          "template": "({{ .Venv }}) ",
+          "properties": {
+            "display_mode": "environment"
+          }
+        },
         {
           "type": "text",
           "style": "plain",
