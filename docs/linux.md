@@ -11,7 +11,7 @@ Einrichtung. Diese Seite beschreibt den Zielzustand und wie man ein neues Theme 
 | Theme | `/usr/local/share/oh-my-posh/themes/<sys_base__config._omp.theme_file>` |
 | Einbindung | Block `# BEGIN/END ANSIBLE MANAGED BLOCK - OH-MY-POSH` in `/etc/bash.bashrc` |
 
-Entfernte Hosts erscheinen mit **oranger** Host-Box, root mit **Bordeaux**.
+Entfernte Hosts erscheinen mit **orangen** Punkten und orangem Hostnamen, root mit **rotem** erstem Punkt und `#`.
 
 ## Neues Theme vor dem Ausrollen testen
 
@@ -29,12 +29,12 @@ bash --norc
 eval "$(oh-my-posh init bash --config /tmp/mw88.omp.json)"
 false            # → ✘ 1
 sleep 3          # → 3s
-cd <git-repo>    # → Git-Box, ggf. Git-Zeile
+cd <git-repo>    # → Branch-Box, ggf. Annotation darüber
 exit
 ```
 
 Achten auf: keine Meldung `unable to create text based on template` (würde auf eine zu alte
-oh-my-posh-Version hindeuten), orange Host-Box, maigrünes `»`, kein Transient Prompt.
+oh-my-posh-Version hindeuten), orange Punkte, maigrünes `»`, Haken der Annotation über dem Branch, kein Transient Prompt.
 
 ## Manuell (ohne Ansible)
 
@@ -42,7 +42,7 @@ Wie in [wsl.md](wsl.md), Schritte 1 und 3. Das Theme statt aus `/mnt/d` aus dem 
 z. B. per `scp` vom Ansible-Controller oder per flachem Klon des Tags:
 
 ```bash
-tag=v1.0.0
+tag=v2.0.0
 git -c advice.detachedHead=false clone --quiet --depth 1 --branch "$tag" \
   git@github.com:mw88-personal/oh-my-posh-theme.git /tmp/omp-theme
 sudo install -D -m 644 /tmp/omp-theme/mw88.omp.json /usr/local/share/oh-my-posh/themes/mw88.omp.json

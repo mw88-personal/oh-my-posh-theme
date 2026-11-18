@@ -8,7 +8,7 @@ Aufbau wie auf den Linux-Servern:
 | Theme | `/usr/local/share/oh-my-posh/themes/mw88.omp.json` |
 | Einbindung | Block in `/etc/bash.bashrc` |
 
-WSL wird automatisch als **lokal** erkannt (blaue Host-Box).
+WSL wird automatisch als **lokal** erkannt (heller und blauer Punkt).
 
 ## 0. Bestandsaufnahme
 
@@ -66,7 +66,8 @@ Alte `oh-my-posh init`-Zeilen in `~/.bashrc` oder `~/.profile` entfernen.
 
 ## Test
 
-Neuer Debian-Tab: blaue Host-Box, maigrünes `»`; `false` → `✘ 1`; `sleep 3` → `3s`.
+Neuer Debian-Tab: heller und blauer Punkt, maigrünes `»`; `false` → `✘ 1`; `sleep 3` → `3s`;
+in einem Repo mit Änderungen steht der Haken `╭` der Annotation über dem Branch.
 Kein Transient Prompt (bash ohne ble.sh).
 
 Git-Repos unter `/mnt/d/…` sind aus WSL spürbar langsamer – das liegt am Dateizugriff über die

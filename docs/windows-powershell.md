@@ -13,7 +13,7 @@ ssh -T git@github.com                                         # muss "Hi mw88-pe
 Installiert wird ein getaggter Stand. Für ein Update nur `$tag` ändern.
 
 ```powershell
-$tag  = "v1.0.0"
+$tag  = "v2.0.0"
 $dest = "D:\usr\local\share\oh-my-posh\themes"
 $tmp  = Join-Path $env:TEMP "oh-my-posh-theme-$tag"
 
