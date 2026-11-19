@@ -22,8 +22,9 @@ Remote host, as a normal user and as root:
 
 ![Prompt as root on a remote host](docs/images/root.svg)
 
-A short session: the transient prompt (PowerShell only) shrinks previous commands to a single line,
-an error stays visible below its output, and the current prompt is shown in full:
+A short session: the transient prompt (PowerShell only) shrinks previous commands to dots, folder
+and `»`, separated by a blank line; an error stays visible below its output, and the current prompt
+is shown in full:
 
 ![Session with transient prompts, an error and the full current prompt](docs/images/session.svg)
 
@@ -70,12 +71,12 @@ remote – including a server console without SSH.
 
 A clean repository shows only the branch box, without an annotation line.
 
-### Colours
+### Colours (RWTH palette)
 
 | Colour          | Hex       | Used for                                                                  |
 | --------------- | --------- | ------------------------------------------------------------------------- |
 | Blue, lightened | `#4C87BC` | second dot, local                                                         |
-| Orange          | `#F6A800` | dots and host name when remote, host name in the transient prompt         |
+| Orange          | `#F6A800` | dots and host name when remote                                            |
 | RWTH red        | `#CC071E` | first dot for root/Administrator                                          |
 | Bordeaux        | `#A11035` | error box `✘`, exit code in the transient prompt                          |
 | May green       | `#BDCD00` | input symbol `»` or `#`                                                   |
@@ -198,9 +199,12 @@ changes don't need a new tag.
   spaces instead of `>` and can be pasted back directly.
 - **Contrast over colour fidelity:** no blue or bordeaux as text colour on a dark background
   (contrast ≈ 2 : 1); a lightened blue for the dot, RWTH red instead of bordeaux for root.
-- **Transient prompt** with the current folder, the host name only for remote hosts, and the exit
-  code of the previous command as its own indented line. Its `»` is violet so that the may green
-  `»` stays reserved for the current input.
+- **Transient prompt** with the two dots, the current folder and a violet `»`, preceded by a blank
+  line so that the output of consecutive commands stays clearly separated. The dots keep role and
+  location visible in the scrollback; user and host name are left out because they rarely change
+  within a session. The exit code of the previous command stays as its own indented line directly
+  below that command's output. The violet `»` keeps the may green `»` reserved for the current
+  input.
 - **cmd is left unchanged.** With the same theme, cmd could no longer be told apart from
   PowerShell; the default `C:\…>` prompt is the clearest way to recognise it.
 - **Shell integration** (`shell_integration: true`) emits OSC 133 marks: Windows Terminal shows
@@ -237,7 +241,6 @@ changes don't need a new tag.
 
 ## Ideas for later
 
-- Set `HISTTIMEFORMAT="%F %T "` system-wide so that `history` shows date and time.
 - **fzf** (fuzzy history search with Ctrl+R), **zoxide** (`z project`), **atuin** (searchable,
   synced history, self-hostable).
 - **ble.sh** for bash: suggestions, syntax highlighting and a transient prompt on Linux too.
@@ -252,3 +255,4 @@ changes don't need a new tag.
 | `v0.1.0` | Starting point: the theme as it ran on the servers before the redesign                                        |
 | `v1.0.0` | Multi-line design: status line, host box, git line, separate input line, transient and secondary prompt       |
 | `v2.0.0` | Single-line prompt: role and location dots, git annotation above the branch, blank line after the status line |
+| `v2.1.0` | Transient prompt with role and location dots and a blank line before each previous command                    |

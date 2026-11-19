@@ -117,7 +117,7 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "#8b919a",
-    "template": "{{ if gt .Code 0 }}  <#A11035><b>✘ {{ .Code }}</b></>\n{{ end }}{{ if not (or (eq .OS \"windows\") .WSL) }}<#F6A800>{{ .HostName }}</> {{ end }}{{ .Folder }} <#7A6FAC><b>»</b></> "
+    "template": "{{ if gt .Code 0 }}  <#A11035><b>✘ {{ .Code }}</b></>\n{{ end }}\n{{ if .Root }}<#CC071E>●</>{{ else }}<{{ if (or (eq .OS \"windows\") .WSL) }}#e6e6e6{{ else }}#F6A800{{ end }}>●</>{{ end }}<{{ if (or (eq .OS \"windows\") .WSL) }}#4C87BC{{ else }}#F6A800{{ end }}>●</> {{ .Folder }} <#7A6FAC><b>»</b></> "
   },
   "secondary_prompt": {
     "background": "transparent",
